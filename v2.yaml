@@ -7,6 +7,8 @@ tags:
   - name: organizations
   - name: repositories
   - name: tags
+  - name: user
+  - name: labels
 paths:
   /api/v2/organization:
     get:
@@ -76,3 +78,192 @@ paths:
                         lastModified:
                           type: string
                           example: Thu, 02 Jun 2022 19:12:32 -0000
+  /api/v2/repository:
+    get:
+      description: Use same information as v1, but add new query params
+      tags:
+      - repositories
+      summary: Get's list of repositories
+      parameters:
+        - name: filter
+          in: query
+          description: Used to filter repositories. TODO will we only filter by name?
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: Used to sort repositories. TODO what are the possible values? ascending vs descending?
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 10
+                  page:
+                    type: integer
+                    example: 0
+                  nextPage:
+                    type: string
+                    example: 1
+                  repositories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        description: 
+                          type: string
+                        is_public: 
+                          type: boolean
+                        is_starred: 
+                          type: string
+                        kind: 
+                          example: "image"
+                        last_modified:
+                          type: integer
+                          example: 1644849693
+                        name:
+                          type: string
+                          example: "quay-builder-podman"
+                        namespace: 
+                          type: string
+                          example: "user1"
+                        popularity:
+                          type: integer
+                          example: 0
+                        state: 
+                          type: string
+                          example: "NORMAL"
+  /api/v2/repository/{org}/{repo}/tags:
+    get:
+      description: >-
+        - Use similar information as v1, but include total tag count
+        - Expand to include manifest lists
+        - Size is layer_compressed
+      tags:
+      - tags
+      parameters:
+        - name: filter
+          in: query
+          description: Used to filter tags. TODO will we only filter by name?
+          required: false
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: Used to sort tags. TODO what are the possible values? ascending vs descending?
+          required: false
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Page number
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    # example: 10
+                  page:
+                    type: integer
+                    # example: 0
+                  nextPage:
+                    type: string
+                    # example: 1
+                  tags:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        tag: 
+                          type: string
+                          # example: latest
+                        layer_size:
+                          type: integer
+                        expiration:
+                          type: string
+                        reversion:
+                          type: boolean
+                        start_ts:
+                          type: integer
+                        end_ts:
+                          type: integer
+                        last_modified:
+                          type: string
+                        manifest: 
+                          type: object
+                          properties:
+                            platform:
+                              type: string
+                            layer_size:
+                              type: integer
+                            digest:
+                              type: string
+                        children: 
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              platform:
+                                type: string
+                              layer_size:
+                                type: integer
+                              digest:
+                                type: string
+  /api/v2/user:
+    description: Same as V1 but drop organizations
+  /api/v2/manifests/label:
+    description: Same as V1
+  /api/v2/manifests/security:
+    description: Returns vulnerability counts for a group of manifest ids
+    get:      
+      parameters:
+        - name: manifest_id
+          in: query
+          description: List of manifest ID's 
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  manifests:
+                    type: object
+                    properties:
+                      manifest_id:
+                        type: object
+                        properties:
+                          severity:
+                            type: string
+                          fixed:
+                            type: string
+        
