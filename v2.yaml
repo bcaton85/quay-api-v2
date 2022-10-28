@@ -38,7 +38,7 @@ paths:
           description: Return only the organizations that the user has the specified role
           required: false
           schema:
-            type: array
+            type: string
       responses:
         '200':
           description: successful operation
