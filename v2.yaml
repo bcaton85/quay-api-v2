@@ -80,7 +80,10 @@ paths:
                           example: Thu, 02 Jun 2022 19:12:32 -0000
   /api/v2/repository:
     get:
-      description: Use same information as v1, but add new query params
+      description: |
+        Use same information as v1, but add new query params.
+        
+        Will return all repositories that the user has read access to.
       tags:
       - repositories
       summary: Get's list of repositories
@@ -290,4 +293,3 @@ paths:
                             type: string
                           fixed:
                             type: string
-        
