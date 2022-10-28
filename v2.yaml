@@ -245,9 +245,17 @@ paths:
                               digest:
                                 type: string
   /api/v2/user:
-    description: Same as V1 but drop organizations
+    get:
+      description: Same as V1 but drop organizations
+      responses:
+        "200": 
+          description: 'Successful response'
   /api/v2/manifests/label:
-    description: Same as V1
+    get:
+      description: Same as V1
+      responses:
+        "200": 
+          description: 'Successful response'
   /api/v2/manifests/security:
     description: Returns vulnerability counts for a group of manifest ids
     get:      
