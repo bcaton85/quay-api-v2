@@ -246,12 +246,16 @@ paths:
                                 type: string
   /api/v2/user:
     get:
+      tags:
+      - user
       description: Same as V1 but drop organizations
       responses:
         "200": 
           description: 'Successful response'
   /api/v2/manifests/label:
     get:
+      tags:
+      - labels
       description: Same as V1
       responses:
         "200": 
