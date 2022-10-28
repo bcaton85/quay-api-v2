@@ -175,6 +175,18 @@ paths:
           required: false
           schema:
             type: integer
+        - name: org
+          in: path
+          required: true
+          description: Get tags within this organization
+          schema:
+            type: string
+        - name: repo
+          in: path
+          required: true
+          description: Get tags within this repository
+          schema:
+            type: string
       responses:
         '200':
           description: successful operation
